@@ -2,6 +2,24 @@
 
 MVP em PHP 8.1+, HTML, CSS e JavaScript, com persistência JSON e sem banco de dados.
 
+## Criar uma presell com o link de afiliado
+
+1. Entre no painel e abra **Criar pelo link** (`/builder.php`). O login já abre este gerador.
+2. Cole seu link de afiliado completo e clique em **Gerar minha presell**. Nenhum outro campo é obrigatório.
+3. Veja a prévia, abra a página ou use **Baixar HTML** para receber um arquivo independente, com CSS, JavaScript e a imagem disponível embutidos.
+
+O gerador segue até cinco destinos HTTP, preserva o link original para atribuição e tenta extrair título, descrição e imagem pública Open Graph. Detecta redes por domínios conhecidos e usa o idioma do HTML, com estimativa por rede quando necessário. O idioma pode ser ajustado depois.
+
+A página gerada usa um template próprio com fundo desfocado e popup de continuidade em português ou inglês. O visitante escolhe aceitar o rastreamento e continuar ou seguir sem rastreamento. Não se apresenta como o fabricante e não inventa preço, depoimentos ou benefícios.
+
+O gerador funciona sem API de IA e sem assinatura paga. Ele importa metadados; não clona o layout inteiro da página de vendas. Destinos que exigem JavaScript, login, CAPTCHA ou bloqueiam consultas podem gerar um modelo básico, informado no resultado. Uma visita automática ao link pode registrar um clique na rede de afiliados; nunca é registrada como venda pelo sistema.
+
+Para importar páginas HTTPS, habilite as extensões PHP cURL e OpenSSL e configure os certificados confiáveis (`curl.cainfo`) quando o ambiente exigir. TLS permanece validado. As consultas validam DNS e cada redirecionamento, bloqueiam redes privadas/reservadas, fixam a conexão ao IP validado e limitam tempo e tamanho das respostas. Imagens importadas ficam em `storage/media/`, fora do Git, e são servidas por `asset.php`.
+
+Neste computador, a configuração local ignorada pelo Git está em `.php.ini`. Inicie com `C:\php\php.exe -c .php.ini -S localhost:8000 router.php`. Esse arquivo contém caminhos específicos deste computador; em outra instalação, configure seu próprio PHP.
+
+O HTML baixado pode ser hospedado como uma página estática. Ele encaminha os parâmetros permitidos somente após aceite, mas não grava eventos no servidor nem inclui o endpoint de postback. Para relatórios de tráfego e conversões, mantenha a aplicação PHP e configure os postbacks autenticados. Teste o fluxo no seu domínio antes de usar em uma campanha.
+
 ## Arquitetura
 
 - `app/helpers.php`: autenticação, consentimento, tracking, HMAC e operações JSON com bloqueio.
@@ -84,6 +102,7 @@ A publicação e a validação no servidor Hostinger ainda não foram executadas
 
 ```powershell
 C:\php\php.exe tests/smoke_test.php
+C:\php\php.exe tests/importer_test.php
 python tests/http_test.py
 node tests/consent_test.js
 ```
@@ -108,4 +127,4 @@ Nunca versionar senhas, hashes reais, tokens ou dados de visitantes. Consulte o 
 
 ## Pendências
 
-Adaptadores das redes, template de modal, editor visual, integração com Google Sheets/Apps Script e publicação validada na Hostinger permanecem pendentes.
+Adaptadores de postback específicos das redes, editor visual, integração com Google Sheets/Apps Script e publicação validada na Hostinger permanecem pendentes. A geração pelo link e o template de modal estão implementados; a reprodução integral do layout da oferta não está.

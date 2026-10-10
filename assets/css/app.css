@@ -11,6 +11,17 @@
     --shadow: 0 18px 45px rgba(15, 20, 40, 0.45);
 }
 
+.link-builder { max-width: 1100px; margin: auto; display: grid; gap: 24px; }
+.builder-intro { padding: 40px; }
+.builder-intro h1 { font-size: clamp(28px, 4vw, 46px); line-height: 1.15; }
+.builder-intro p { color: var(--muted); line-height: 1.6; }
+.builder-intro .campaign-form { max-width: 740px; margin-top: 28px; }
+.builder-hint { font-size: 13px; }
+.presell-preview { width: 100%; height: 620px; border: 1px solid var(--border); border-radius: 16px; background: white; margin-top: 24px; }
+.language-form { display: flex; align-items: end; gap: 15px; margin-top: 25px; }
+.manual-builder { margin-top: 30px; }
+.manual-builder summary { cursor: pointer; padding: 15px 0; color: var(--muted); }
+
 * { box-sizing: border-box; }
 body {
     margin: 0;

@@ -1,0 +1,26 @@
+:root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: #17342a; background: #f6f7ef; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.offer-background { min-height: 100vh; padding: 30px 6vw; filter: blur(5px); user-select: none; }
+.offer-background header { display: flex; justify-content: space-between; gap: 20px; padding: 20px 0 34px; border-bottom: 1px solid #d3dfcf; }
+.offer-brand { font-size: 20px; font-weight: bold; }
+.offer-hero { max-width: 1100px; margin: 70px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 55px; align-items: center; }
+.offer-kicker { text-transform: uppercase; letter-spacing: .15em; font-size: 12px; }
+.offer-hero h1 { font-size: clamp(36px, 5vw, 66px); line-height: 1.08; }
+.offer-hero p { font-size: 18px; line-height: 1.6; }
+.offer-hero img { width: 100%; max-height: 520px; object-fit: contain; border-radius: 24px; }
+.offer-art { min-height: 380px; border-radius: 48% 48% 24px 24px; background: linear-gradient(140deg, #d8e8c5, #accb96); display: grid; place-items: center; padding: 40px; text-align: center; font-size: 32px; font-weight: bold; }
+.offer-cta { display: inline-block; padding: 18px 30px; border-radius: 100px; background: #225f42; color: white; margin-top: 20px; }
+.offer-details { max-width: 1100px; margin: auto; padding: 35px; background: #e7eddf; border-radius: 24px; }
+.modal-shade { position: fixed; inset: 0; background: #18322655; display: grid; place-items: center; padding: 24px; overflow-y: auto; }
+.offer-dialog { width: min(100%, 490px); padding: 36px; border-radius: 24px; background: white; box-shadow: 0 25px 100px #12271b40; text-align: center; }
+.dialog-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #626c64; }
+.dialog-icon { margin: 20px auto; width: 56px; height: 56px; display: grid; place-items: center; background: #edf4e7; border-radius: 50%; font-size: 28px; }
+.offer-dialog h2 { margin: 16px 0; font-size: 28px; }
+.offer-dialog p { color: #59645d; font-size: 15px; line-height: 1.65; }
+.continue-primary, .continue-secondary { display: block; width: 100%; padding: 17px 15px; margin-top: 15px; border-radius: 12px; cursor: pointer; font: bold 15px Arial, sans-serif; text-decoration: none; text-align: center; }
+.continue-primary { background: #246744; color: white; border: 1px solid #246744; }
+.continue-secondary { color: #246744; background: white; border: 1px solid #b7c6bb; }
+.offer-dialog .dialog-footnote { margin: 20px 0 0; font-size: 11px; }
+button:focus-visible, a:focus-visible { outline: 3px solid #8bbb62; outline-offset: 4px; }
+@media(max-width:600px) { .offer-hero { grid-template-columns: 1fr; gap: 20px; } .offer-dialog { padding: 26px 22px; } .offer-background header { flex-direction: column; } }

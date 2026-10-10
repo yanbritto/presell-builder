@@ -46,3 +46,32 @@ check(!current.classes.has('hidden'), 'settings reopen choice');
 current = page('presell_consent=accepted', true);
 check(current.classes.has('hidden'), 'blocked localStorage does not break stored choice');
 console.log(`${count} consent checks passed`);
+
+const modalSource = fs.readFileSync(path.join(__dirname, '../assets/js/presell.js'), 'utf8');
+function modalPage(bridge = '/bridge.php?campaign=generated') {
+    const listeners = {};
+    const dialog = { dataset: { bridge, offerUrl: 'https://offer.example/?affiliate=Original' } };
+    const document = {
+        cookie: '', addEventListener(event,fn) { fn(); }, querySelector() { return dialog; },
+        querySelectorAll() { return ['accepted','rejected'].map(choice => ({ dataset:{offerChoice:choice},addEventListener(event,fn) { listeners[choice]=fn; } })); }
+    };
+    let destination;
+    vm.runInNewContext(modalSource, { document, URL,
+        localStorage:{removeItem() {}},
+        location:{href:'https://presell.example/index.php?campaign=generated&gclid=GCLID&subid=AbC&untrusted=hidden',protocol:'https:',assign(url) { destination=url; }}
+    });
+    return { document, listeners, next:() => destination };
+}
+let modal = modalPage();
+check(modal.document.cookie === '' && !modal.next(), 'modal creates no consent or redirect on load');
+modal.listeners.rejected({preventDefault() {}});
+check(modal.document.cookie.includes('rejected') && !modal.next().includes('gclid'), 'modal rejection never forwards incoming tracking');
+check(modal.next().includes('affiliate=Original'), 'rejection preserves original affiliate attribution');
+modal = modalPage();
+modal.listeners.accepted({preventDefault() {}});
+check(modal.document.cookie.includes('accepted') && modal.next().includes('/bridge.php?campaign=generated'), 'explicit modal acceptance uses bridge');
+check(modal.next().includes('gclid=GCLID') && modal.next().includes('subid=AbC') && !modal.next().includes('untrusted'), 'accepted modal forwards only allowed parameters with preserved case');
+modal = modalPage('');
+modal.listeners.accepted({preventDefault() {}});
+check(modal.next().startsWith('https://offer.example/') && modal.next().includes('gclid=GCLID'), 'standalone export forwards consented tracking directly');
+console.log(`${count} total consent checks passed`);

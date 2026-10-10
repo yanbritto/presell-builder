@@ -6,6 +6,10 @@ require __DIR__ . '/app/config.php';
 
 
 $campaign = getCampaignBySlug(is_string($_GET['campaign'] ?? null) ? $_GET['campaign'] : 'demo') ?? createDefaultCampaign();
+if (($campaign['template'] ?? '') === 'modal') {
+    require __DIR__ . '/app/modal.php';
+    exit;
+}
 $tracking = consentTracking($_GET);
 $trackQuery = http_build_query($tracking);
 $reviewHref = '/review.php?campaign=' . rawurlencode($campaign['slug'] ?? 'demo') . ($trackQuery !== '' ? '&' . $trackQuery : '');

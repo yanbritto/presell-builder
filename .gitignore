@@ -6,6 +6,8 @@
 # Runtime generated files
 storage/*.json
 storage/**/*.json
+storage/media/
+.php.ini
 
 # OS and editor artifacts
 .DS_Store

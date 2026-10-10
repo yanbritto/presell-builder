@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['admin_authenticated'] = true;
         $_SESSION['admin_config_fingerprint'] = hash('sha256', securePasswordHash());
         $_SESSION['admin_user'] = $submittedUser;
-        redirect('/admin/dashboard.php');
+        redirect('/builder.php');
     }
 
     $_SESSION['login_error'] = 'Credenciais inválidas.';

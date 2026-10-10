@@ -1,5 +1,15 @@
 # Histórico de mudanças
 
+## 0.2.0 — 2026-10-10
+
+- Gerador com um único campo obrigatório: o link de afiliado. Slug e textos são gerados automaticamente, usando informações públicas da oferta quando disponíveis.
+- Importação HTTP/HTTPS com redirecionamentos, metadados Open Graph, identificação de rede por domínio e idioma en/pt. Links originais de afiliado são preservados; ofertas inacessíveis produzem um modelo básico claramente identificado.
+- Template de modal com fundo desfocado, identificação de página afiliada e escolhas reais de rastreamento. Imagens disponíveis são importadas e armazenadas fora do Git.
+- Prévia integrada, ajuste opcional de idioma e download de HTML com CSS, JavaScript e imagem embutidos. O HTML estático não inclui persistência de tráfego nem servidor de postback.
+- Login direciona ao gerador. Cadastro manual continua disponível como opção avançada.
+- Consultas bloqueiam destinos privados, IPs reservados, protocolos/portas especiais e redirecionamentos perigosos; DNS fixado por conexão, TLS validado e limites de tamanho/tempo.
+- Validação: 34 verificações de importação, 68 HTTP, 18 PHP de tracking/postback e 17 JavaScript de consentimento passaram. Importação HTTPS real validada em example.com. Não houve teste contra links reais de afiliado nem validação visual automatizada em navegador.
+
 ## 0.1.1 — 2026-10-10
 
 - Configuração inicial do administrador no navegador, disponível somente em loopback com Host local e enquanto não houver hash de senha.

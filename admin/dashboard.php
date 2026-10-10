@@ -71,6 +71,7 @@ unset($_SESSION['dashboard_message']);
         <header class="topbar">
             <div class="brand">Presell Builder</div>
             <nav>
+                <a class="btn-primary" href="/builder.php">Criar pelo link</a>
                 <a href="/">Landing</a>
                 <form method="post" action="/admin/logout.php"><input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrfToken(), ENT_QUOTES, 'UTF-8'); ?>"><button type="submit" class="btn-secondary">Sair</button></form>
             </nav>
@@ -94,7 +95,11 @@ unset($_SESSION['dashboard_message']);
             </section>
 
             <section class="panel">
-                <h2>Nova campanha</h2>
+                <h2>Quer criar só com o link?</h2>
+                <p>Cole seu link de afiliado e receba a página pronta, sem preencher os campos abaixo.</p>
+                <a class="btn-primary" href="/builder.php">Criar presell pelo link</a>
+                <details class="manual-builder"><summary>Cadastro manual avançado</summary>
+                <h2>Nova campanha manual</h2>
                 <form method="post" action="/admin/dashboard.php" class="campaign-form">
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(csrfToken(), ENT_QUOTES, 'UTF-8'); ?>">
                     <label>Slug<input type="text" name="slug" placeholder="demo" required></label>
@@ -122,6 +127,7 @@ Review page
 Postback de conversão validado</textarea></label>
                     <button type="submit" class="btn-primary">Salvar campanha</button>
                 </form>
+                </details>
             </section>
         </main>
     </div>
