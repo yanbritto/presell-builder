@@ -1,0 +1,6 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule (^|/)(\.|app(?:/|$)|storage(?:/|$)|tests(?:/|$)) - [F,L,NC]
+<FilesMatch "^(README\.md|router\.php)$">
+    Require all denied
+</FilesMatch>
