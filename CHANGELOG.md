@@ -1,5 +1,12 @@
 # Histórico de mudanças
 
+## 0.2.1 — 2026-10-10
+
+- Modal ajustado ao exemplo enviado: fundo escuro com desfoque, popup branco, botão roxo e adaptação para celular.
+- Captura opcional do checkout como fundo ilustrativo, com validação do conteúdo, tamanho e dimensões. Capturas ficam fora do Git e são embutidas no HTML exportado.
+- O link permanece obrigatório e as escolhas reais de rastreamento são preservadas. Captura automática do checkout pelo link permanece pendente.
+- Validação: 5 verificações de imagens, 34 de importação, 68 HTTP, 18 de tracking/postback e 17 JavaScript passaram. Prévia local com captura retornou HTTP 200; não houve comparação visual automatizada em navegador.
+
 ## 0.2.0 — 2026-10-10
 
 - Gerador com um único campo obrigatório: o link de afiliado. Slug e textos são gerados automaticamente, usando informações públicas da oferta quando disponíveis.

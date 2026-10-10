@@ -103,6 +103,7 @@ A publicação e a validação no servidor Hostinger ainda não foram executadas
 ```powershell
 C:\php\php.exe tests/smoke_test.php
 C:\php\php.exe tests/importer_test.php
+C:\php\php.exe tests/background_test.php
 python tests/http_test.py
 node tests/consent_test.js
 ```
@@ -124,6 +125,12 @@ git commit -m "fix: secure consent, admin and postback flows"
 
 Use `main` para versões estáveis e `feature/*` ou `hotfix/*` para mudanças revisadas.
 Nunca versionar senhas, hashes reais, tokens ou dados de visitantes. Consulte o [CHANGELOG.md](CHANGELOG.md) para as mudanças e validações de cada versão.
+
+## Fundo com captura da oferta
+
+No gerador, o link continua sendo o único campo obrigatório. Para reproduzir o visual de uma captura de checkout com popup branco e botão roxo, envie uma imagem no campo **Captura da oferta** (PNG, JPG ou WebP, até 5 MB e 40 megapixels). A imagem fica como fundo ilustrativo, sem campos de pagamento interativos, e é embutida no HTML baixado. Imagens e links reais ficam nos arquivos locais ignorados pelo Git.
+
+Sem captura, a página usa os metadados da oferta. O sistema ainda não fotografa o checkout automaticamente a partir do link. O popup mantém aceite e continuação sem rastreamento, sem alegar o uso de cookies de publicidade inexistentes.
 
 ## Pendências
 
