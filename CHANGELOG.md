@@ -1,5 +1,12 @@
 # Histórico de mudanças
 
+## 0.1.1 — 2026-10-10
+
+- Configuração inicial do administrador no navegador, disponível somente em loopback com Host local e enquanto não houver hash de senha.
+- Login local encaminha para a configuração inicial; o formulário valida CSRF, confirmação de senha e salva somente o hash em um arquivo de ambiente ignorado pelo Git.
+- Configuração exige bloqueio do arquivo e nova verificação antes da escrita para impedir sobrescrever um administrador já configurado.
+- Validação: 55 verificações HTTP passaram, incluindo configuração inicial, senha fraca, confirmação divergente, Host não local, CSRF e login com a senha cadastrada; sintaxe dos arquivos PHP alterados validada.
+
 ## 0.1.0 — 2026-10-10
 
 Primeira versão do MVP Presell Builder, em PHP 8.1+, HTML, CSS e JavaScript, sem banco de dados e com persistência em JSON.

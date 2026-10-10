@@ -5,6 +5,11 @@ declare(strict_types=1);
 require __DIR__ . '/../app/config.php';
 startSession();
 
+if (securePasswordHash() === '' && in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true)
+    && preg_match('/^(localhost|127\.0\.0\.1|\[::1\])(?::[0-9]+)?$/i', $_SERVER['HTTP_HOST'] ?? '')) {
+    redirect('/admin/setup.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
     $submittedUser = is_string($_POST['username'] ?? null) ? trim($_POST['username']) : '';

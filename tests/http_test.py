@@ -51,8 +51,10 @@ def main():
         jar = http.cookiejar.CookieJar()
         opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar), NoRedirect())
         guest = urllib.request.build_opener(NoRedirect())
-        def request(path, data=None, cookie=None, client=guest):
+        def request(path, data=None, cookie=None, client=guest, host=None):
             headers = {'Cookie': cookie} if cookie else {}
+            if host is not None:
+                headers['Host'] = host
             encoded = urllib.parse.urlencode(data, doseq=True).encode() if data is not None else None
             req = urllib.request.Request(base + path, data=encoded, headers=headers)
             try:
@@ -134,7 +136,28 @@ def main():
             (root/'.env').write_text(f'APP_BASE_URL="{base}"\nAPP_ADMIN_USER="audit"\n')
             check(postback()[0] == 503, 'missing postback secret disables endpoint')
             (root/'storage/login_attempts.json').write_text('[]')
-            check(request('/admin/login.php',dict(username='audit',password=password,csrf_token=token),client=opener)[0] == 200, 'missing admin hash disables login')
+            code, _, headers = request('/admin/login.php', client=opener)
+            check(code == 302 and headers['Location'].endswith('/admin/setup.php'), 'missing admin hash opens local setup')
+            check(request('/admin/setup.php',host='attacker.example')[0] == 403, 'setup rejects non-local Host')
+            check(request('/admin/setup.php',{})[0] == 419, 'setup requires CSRF')
+            code, body, _ = request('/admin/setup.php',client=opener)
+            check(code == 200 and 'type="password"' in body, 'setup form available locally')
+            setup_token = re.search(r'name="csrf_token" value="([a-f0-9]+)"',body).group(1)
+            before_setup = (root/'.env').read_text()
+            request('/admin/setup.php',dict(username='audit',password='short',confirmation='short',csrf_token=setup_token),client=opener)
+            check((root/'.env').read_text() == before_setup, 'weak password leaves configuration untouched')
+            request('/admin/setup.php',dict(username='audit',password=password,confirmation='mismatch',csrf_token=setup_token),client=opener)
+            check((root/'.env').read_text() == before_setup, 'mismatched confirmation leaves configuration untouched')
+            code, _, headers = request('/admin/setup.php',dict(username='audit',password=password,confirmation=password,csrf_token=setup_token),client=opener)
+            check(code == 302 and headers['Location'].endswith('/admin/login.php'), 'valid setup redirects to login')
+            configured = (root/'.env').read_text()
+            check(password not in configured and 'APP_ADMIN_PASSWORD_HASH="$2' in configured and base in configured, 'setup saves only hash and preserves existing settings')
+            check(request('/admin/setup.php',client=opener)[0] == 302, 'configured administrator disables setup')
+            request('/admin/setup.php',dict(username='replacement',password=password,confirmation=password,csrf_token=setup_token),client=opener)
+            check((root/'.env').read_text() == configured, 'setup cannot overwrite configured credentials')
+            _, body, _ = request('/admin/login.php',client=opener)
+            login_token = re.search(r'name="csrf_token" value="([a-f0-9]+)"',body).group(1)
+            check(request('/admin/login.php',dict(username='audit',password=password,csrf_token=login_token),client=opener)[0] == 302, 'new setup credentials authenticate')
         finally:
             server.terminate()
             server.wait(timeout=5)

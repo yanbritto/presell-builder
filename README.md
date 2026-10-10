@@ -24,6 +24,8 @@ MVP em PHP 8.1+, HTML, CSS e JavaScript, com persistência JSON e sem banco de d
 5. Inicie com `php -S localhost:8000 router.php` (ou `C:\php\php.exe -S localhost:8000 router.php`).
 6. Acesse `http://localhost:8000/admin/login.php` e crie a campanha.
 
+Na primeira execução local, se ainda não houver hash administrativo, o login abre uma página de configuração. Defina seu usuário e uma senha nova para acessar o painel. Apenas o hash é salvo no `.env` local, ignorado pelo Git. A configuração inicial exige conexão de loopback com Host local e fica indisponível após cadastrar a senha. Na hospedagem, configure o hash diretamente no ambiente.
+
 Não inicie o servidor local sem `router.php`: o servidor PHP não interpreta `.htaccess`.
 
 ## Consentimento e tracking
